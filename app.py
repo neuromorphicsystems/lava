@@ -8,6 +8,7 @@ from lava.magma.core.model.py.ports import PyInPort, PyOutPort
 from lava.magma.core.resources import CPU
 from lava.magma.core.model.model import AbstractProcessModel
 
+import pandas as pd    
 
 # Import parent classes for ProcessModels for Hierarchical Processes.
 from lava.magma.core.model.py.model import PyLoihiProcessModel
@@ -515,8 +516,7 @@ if intro==str("Yes"):
     st.markdown("""We see that for positive time lags the auto-covariance function still is large. <br>
     This means that the network has memory of its previous states: The state at a given point in time influences strongly the subsequent path of the trajectories of the neurons. <br>
     Such a network can perform meaningful computations.
-
-    # LIF Neurons
+    LIF Neurons
     We now turn to a E/I networks implementing its dynamic behavior with leaky integrate-and-fire neurons. <br>
     For this, we harness the concepts of Hierarchical Lava Processes and SubProcessModels. These allow us to avoid implementing everything ourselves, but rather to use already defined Processes and their ProcessModels to build more complicated programs. <br>
     We here use the behavior defined for the [LIF](https://github.com/lava-nc/lava/tree/main/src/lava/proc/lif "Lava's LIF neuron") and [Dense](https://github.com/lava-nc/lava/tree/main/src/lava/proc/dense "Lava's Dense Connectivity") Processes, we define the behavior of the E/I Network Process. <br>
@@ -672,22 +672,6 @@ First, we visually inspect to spiking activity of the neurons in the network.<br
 To this end, we display neurons on the vertical axis and mark the time step when a neuron spiked.
 """)
 
-def compute_ISI(spks):
-    # hint spks is a 2D matrix, get a 1D Vector per neuron-id spike train.
-    # [x for ind,x in enumerate(spks)]
-    pass
-    # return an array of ISI_arrays.
-
-def compute_ISI_CV(ISI_array):
-    # hint
-    # [x for ind,x in enumerate(spks)]
-    pass
-    # return a vector of scalars: ISI_CV
-
-def average(ISI_CV):
-    # use numpy to mean the vector of ISI_CVs
-    # return a scalar.
-    pass
 
     
     
@@ -735,25 +719,49 @@ def plot3(spks_balanced)->None:
     st.pyplot(fig)
 
 _=plot3(spks_balanced)
-import pandas as pd    
-def spikes_2_frame(spks_balanced)->None:    
-    st.markdown(type(spks_balanced))
-    st.markdown(spks_balanced)
-    #spike_dict_empty = {ind:[] for (ind,nparray) in enumerate(spks_balanced)}
-    spike_frame = pd.DataFrame([{ind:nparray for (ind,nparray) in enumerate(spks_balanced) for spikes in nparray}])
-    #spike_frame.dropzeros()
-    spike_frame.loc[(~spike_frame==0).all(axis=1)]
 
+def compute_ISI(spks):
+    # hint spks is a 2D matrix, get a 1D Vector per neuron-id spike train.
+    # [x for ind,x in enumerate(spks)]
+    pass
+    # return an array of ISI_arrays.
+
+def compute_ISI_CV(ISI_array):
+    # hint
+    # [x for ind,x in enumerate(spks)]
+    pass
+    # return a vector of scalars: ISI_CV
+
+def average(ISI_CV):
+    # use numpy to mean the vector of ISI_CVs
+    # return a scalar.
+    pass
+
+def spikes_to_frame(dims,spks)->None:    
+    st.markdown(type(spks))
+    st.markdown(spks)
+    #spike_dict_empty = {ind:[] for (ind,nparray) in enumerate(spks)}
+    timesteps = num_time_steps = spks.shape[1]
+    stride = 6
+    time_steps = np.arange(0, num_time_steps, 1)
+
+
+    assert stride < num_time_steps, "Stride must be smaller than number of time steps"
+       
+    spk_time_list = []
+    spike_times_dic = {}
+    for i in range(0, dim, stride):
+        temp = [float(x) for x in time_steps[spks[i] == 1]]
+        spike_times_dic[str(i)] = pd.Series(temp)
+        
+    spk_time_list.append(spike_times_dic)
+
+    spike_frame = pd.DataFrame(spk_time_list)
     st.write(spike_frame)
 
-    spike_frame = pd.DataFrame([{str(ind):pd.Series(nparray) for (ind,nparray) in enumerate(spks_balanced) for spikes in nparray}])
-    spike_frame.loc[(~spike_frame==0).all(axis=1)]
-
-    st.write(spike_frame)
-    #st.write(spike_frame)
-    #st.markdown(spike_frame.values)
+    return spike_frame
     
-spikes_2_frame(spks_balanced)
+spike_frame = spikes_to_frame(dim,spks_balanced)
 
 def the_rest_of_the_app():
     
