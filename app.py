@@ -763,7 +763,7 @@ def spikes_to_frame(dims,spks)->None:
 def print_to_screen_raster_plot(spks):
     st.markdown(spks)
     
-print_to_screen_raster_plot(spks)
+print_to_screen_raster_plot(spks_balanced)
                 
 spike_frame = spikes_to_frame(dim,spks_balanced)
 
