@@ -39,9 +39,8 @@ from lava.proc.dense.models import PyDenseModelBitAcc
 from lava.proc.lif.models import PyLifModelBitAcc
 
 # Configurations for execution.
-num_steps = 1000
-dim = 100
-
+num_steps = 1000 # Time stamp
+dim = 100 # Neurons
 
 # Define dimensionality of the network.
 label = "select network size"
