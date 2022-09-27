@@ -760,7 +760,11 @@ def spikes_to_frame(dims,spks)->None:
     #st.write(spike_frame)
 
     return spike_frame
+def print_to_screen_raster_plot(spks):
+    st.markdown(spks)
     
+print_to_screen_raster_plot(spks)
+                
 spike_frame = spikes_to_frame(dim,spks_balanced)
 
 def the_rest_of_the_app():
