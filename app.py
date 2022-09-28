@@ -107,39 +107,41 @@ def plot3(spks_balanced) -> None:
     st.pyplot(fig)
 
 results_dic = {}
-"""
-uploaded_file = st.file_uploader("Upload Spike Trains To Compute CV on.")
-if uploaded_file is not None:
-    spks_dict_of_dicts = pickle.loads(uploaded_file.read())
-    st.write("spikes loaded")
-    # st.write(spks_balanced)
+def not_markdown():
+    pass
+    """
+    uploaded_file = st.file_uploader("Upload Spike Trains To Compute CV on.")
+    if uploaded_file is not None:
+        spks_dict_of_dicts = pickle.loads(uploaded_file.read())
+        st.write("spikes loaded")
+        # st.write(spks_balanced)
 
-    balanced_spikes = spks_dict["balanced"]
-    critical_spikes = spks_dict["critical"]
-    critical_fixed_spikes = spks_dict["critical_fixed"]
+        balanced_spikes = spks_dict["balanced"]
+        critical_spikes = spks_dict["critical"]
+        critical_fixed_spikes = spks_dict["critical_fixed"]
 
-    flatten_run_params = [
-        (dim, num_steps)
-        for dim in [75, 200]
-        for num_steps in [500, 2000]
-    ]
-
-    my_bar = st.progress(0)
-
-    for ind, (neuron_population_size, length_of_simulation) in enumerate(flatten_run_params):
-        b#alanced_spikes = spks_dict_of_dicts[neuron_population_size, length_of_simulation]["balanced"]
-        critical_spikes = spks_dict_of_dicts[neuron_population_size, length_of_simulation]["critical"]
-        critical_fixed_spikes = spks_dict_of_dicts[neuron_population_size, length_of_simulation][
-            "critical_fixed_spikes"
+        flatten_run_params = [
+            (dim, num_steps)
+            for dim in [75, 200]
+            for num_steps in [500, 2000]
         ]
 
-        for spkt in [critical_spikes, critical_fixed_spikes]:
-            raster_plot(spkt)
-        for spkt in [critical_spikes, critical_fixed_spikes]:
-            result = compute_ISI_CV(spkt)
-            st.markdown(result)
-"""
-#else:
+        my_bar = st.progress(0)
+
+        for ind, (neuron_population_size, length_of_simulation) in enumerate(flatten_run_params):
+            b#alanced_spikes = spks_dict_of_dicts[neuron_population_size, length_of_simulation]["balanced"]
+            critical_spikes = spks_dict_of_dicts[neuron_population_size, length_of_simulation]["critical"]
+            critical_fixed_spikes = spks_dict_of_dicts[neuron_population_size, length_of_simulation][
+                "critical_fixed_spikes"
+            ]
+
+            for spkt in [critical_spikes, critical_fixed_spikes]:
+                raster_plot(spkt)
+            for spkt in [critical_spikes, critical_fixed_spikes]:
+                result = compute_ISI_CV(spkt)
+                st.markdown(result)
+    """
+    #else:
 
 st.markdown(
     "No files where uploaded yet, so generating the data that make up those files... Please Download them when done with the Download link."
@@ -164,18 +166,20 @@ for ind, (neuron_population_size, length_of_simulation) in enumerate(
 
     percent_complete = float(ind/4.0)
     my_bar.progress(percent_complete + 1)
-    """
-    (
-        data_v_balanced,
-        data_v_balanced,
-        spks_balanced,
-    ) = third_model_to_cache(
-        network_params_balanced, num_steps, dim
-    )
-    #spike_frame0, spike_times_balanced = spikes_to_frame(dim, spks_balanced)
-    #_ = plot3(spks_balanced)
-    #"balanced": spike_times_balanced,
-    """
+    def nmd():
+        """
+        (
+            data_v_balanced,
+            data_v_balanced,
+            spks_balanced,
+        ) = third_model_to_cache(
+            network_params_balanced, num_steps, dim
+        )
+        #spike_frame0, spike_times_balanced = spikes_to_frame(dim, spks_balanced)
+        #_ = plot3(spks_balanced)
+        #"balanced": spike_times_balanced,
+        """
+        pass
     (
         spks_critical,
         data_u_critical,
@@ -202,15 +206,15 @@ for ind, (neuron_population_size, length_of_simulation) in enumerate(
         "critical_fixed": spike_times_critical_fixed,
     }
 
-    st.download_button(
-        str(neuron_population_size)+str(length_of_simulation),
-        data=pickle.dumps(results_dic[neuron_population_size, length_of_simulation]),
-        file_name=str(neuron_population_size)+str(length_of_simulation)+".pkl",
-    )
+    #st.download_button(
+    #    str(neuron_population_size)+str(length_of_simulation),
+    #    data=pickle.dumps(results_dic[neuron_population_size, length_of_simulation]),
+    #    file_name=str(neuron_population_size)+str(length_of_simulation)+".pkl",
+    #)
 
 
-#st.download_button(
-#    "Download Spikes",
-#    data=pickle.dumps(results_dic),
-#    file_name="spks_balanced.pkl",
-#)
+st.download_button(
+    "Download Spikes",
+    data=pickle.dumps(results_dic),
+    file_name="spks_balanced.pkl",
+)
